@@ -1,1 +1,1 @@
-Exercice to create a game
+Game creation
