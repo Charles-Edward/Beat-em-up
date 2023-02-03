@@ -61,13 +61,11 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerStateMode.IDLE:
 
-                _animator.SetFloat("MoveSpeed", maxValue);
-
                 SwitchToSprint();
 
                 break;
             case PlayerStateMode.WALK:
-
+                _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
 
                 break;
