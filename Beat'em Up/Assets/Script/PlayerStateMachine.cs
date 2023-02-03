@@ -60,7 +60,7 @@ public class PlayerStateMachine : MonoBehaviour
         switch (_currentState)
         {
             case PlayerStateMode.IDLE:
-
+                _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
 
                 break;
