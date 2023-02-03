@@ -70,7 +70,7 @@ public class PlayerStateMachine : MonoBehaviour
 
                 break;
             case PlayerStateMode.SPRINT:
-                if (Input.GetButtonUp("Fire3"))
+                if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/) 
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }

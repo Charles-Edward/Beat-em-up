@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float _moveSpeed = 3f;
 
     [SerializeField]
-    private float _runSpeed = 6f;
+    private float _runSpeed = 1.3f;
 
 
 
@@ -44,7 +44,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+        if (Input.GetButton("Fire3"))
+        {
+        _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed )* Time.fixedDeltaTime;
+
+        }
+        else
+        {
+            _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+        }
     }
 
 
