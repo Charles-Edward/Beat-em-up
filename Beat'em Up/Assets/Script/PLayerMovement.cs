@@ -5,8 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLayerMovement : MonoBehaviour
-{ 
+
+
+public class PlayerMovement : MonoBehaviour
+{
     [SerializeField]
     private float _moveSpeed = 3f;
 
@@ -29,40 +31,29 @@ public class PLayerMovement : MonoBehaviour
 
     }
 
-
     void Start()
     {
-        
+
     }
-
-
-
-
 
     void Update()
     {
-        
+        Move();
     }
 
 
     private void FixedUpdate()
     {
-        _rb2D.velocity = _direction;
-        Move();
-
+        _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
     }
+
 
     // Méthode pour déplacer le player
     private void Move()
     {
-        _direction.x = Input.GetAxisRaw("Horizontal") * _moveSpeed;
-        _direction.y = Input.GetAxisRaw("Vertical") * _moveSpeed;
-
+        _direction.x = Input.GetAxis("Horizontal");
+        _direction.y = Input.GetAxis("Vertical");
 
     }
-
-
-
-
 
 }
