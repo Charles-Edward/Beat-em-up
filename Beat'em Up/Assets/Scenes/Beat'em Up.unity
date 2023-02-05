@@ -268,11 +268,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -81.42
+      value: -18.6
       objectReference: {fileID: 0}
     - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -316,11 +316,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2002734565698838550, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 62.602
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2002734565698838550, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.723
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002734565698838551, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2002734565698838551, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_Enabled
@@ -348,7 +352,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -380,6 +384,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c049c27335e677409cd7295a63b437a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0014915466
+      value: 0
+      inSlope: 1.2718437
+      outSlope: 1.2718437
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.061194032
+    - serializedVersion: 3
+      time: 0.6008911
+      value: 0
+      inSlope: -1.2728386
+      outSlope: -1.2728386
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.035820812
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _jumpHeight: 1.4
+  _jumpDuration: 1
 --- !u!1 &2062628324
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062628324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.82, y: 0, z: -10}
+  m_LocalPosition: {x: -17.06, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

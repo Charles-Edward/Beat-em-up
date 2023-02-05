@@ -14,20 +14,25 @@ enum PlayerStateMode
 
 public class PlayerStateMachine : MonoBehaviour
 {
-
+    [SerializeField] AnimationCurve _jumpCurve;
+    [SerializeField] float _jumpHeight = 0.7f;
+    [SerializeField] float _jumpDuration = 3f;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-
+        _graphics = transform.Find("Graphic");
 
     }
     void Start()
     {
+        // Etat idle au start 
         TransitionToState(PlayerStateMode.IDLE);
     }
 
     void Update()
     {
+
+
         OnStateUpdate();
     }
     #region States
@@ -43,6 +48,7 @@ public class PlayerStateMachine : MonoBehaviour
                 _animator.SetBool("isRunning", true);
                 break;
             case PlayerStateMode.JUMP:
+                _animator.SetBool("isJumping", true);
                 break;
             case PlayerStateMode.BASICPUNCH:
                 break;
@@ -55,6 +61,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _horizontal = Input.GetAxis("Horizontal");
         _vertical = Input.GetAxis("Vertical");
+
+        // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
+        // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
+        // jamais dans cette condition
+        // l'utilisation de Mathf.Max permet de récupérer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
+        // du Y pour entrer dans la conditions de l'animator qui est actuellement : if(MoveSpeed > .1)
         float maxValue = Mathf.Max(Mathf.Abs(_vertical), Mathf.Abs(_horizontal));
 
         switch (_currentState)
@@ -62,6 +74,10 @@ public class PlayerStateMachine : MonoBehaviour
             case PlayerStateMode.IDLE:
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
+                if(Input.GetButtonDown("Jump"))
+                {
+                    TransitionToState(PlayerStateMode.JUMP);
+                }
 
                 break;
             case PlayerStateMode.WALK:
@@ -70,12 +86,20 @@ public class PlayerStateMachine : MonoBehaviour
 
                 break;
             case PlayerStateMode.SPRINT:
-                if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/) 
+                if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/)
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
                 break;
             case PlayerStateMode.JUMP:
+
+                if (_jumpTimer < _jumpDuration)
+                {
+                    _jumpTimer += Time.deltaTime;
+                    float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
+                    _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
+                }
+
                 break;
             case PlayerStateMode.BASICPUNCH:
                 break;
@@ -96,6 +120,8 @@ public class PlayerStateMachine : MonoBehaviour
                 _animator.SetBool("isRunning", false);
                 break;
             case PlayerStateMode.JUMP:
+                _animator.SetBool("isJumping", false);
+                _jumpTimer = 0f;
                 break;
             case PlayerStateMode.BASICPUNCH:
                 break;
@@ -118,10 +144,12 @@ public class PlayerStateMachine : MonoBehaviour
             TransitionToState(PlayerStateMode.SPRINT);
         }
     }
-#endregion
+    #endregion
 
     private Animator _animator;
     private PlayerStateMode _currentState;
     private float _horizontal;
     private float _vertical;
+    Transform _graphics;
+    float _jumpTimer;
 }

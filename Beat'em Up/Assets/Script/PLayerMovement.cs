@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb2D = GetComponent<Rigidbody2D>();
-
+        z = transform.Find("Sprite Renderer");
 
     }
 
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("Fire3"))
         {
-        _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed )* Time.fixedDeltaTime;
+            _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
 
         }
         else
@@ -64,4 +64,17 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void Flip()
+    {
+        if (_direction.x < 0)
+        {
+        } 
+        else if (_direction.x > 0) 
+        {
+        
+        }
+
+    }
+
+    private Transform z;
 }
