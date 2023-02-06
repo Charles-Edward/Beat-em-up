@@ -31,8 +31,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Update()
     {
-
-
         OnStateUpdate();
     }
     #region States
@@ -74,32 +72,32 @@ public class PlayerStateMachine : MonoBehaviour
             case PlayerStateMode.IDLE:
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
-                if(Input.GetButtonDown("Jump"))
-                {
-                    TransitionToState(PlayerStateMode.JUMP);
-                }
-
+                SwitchToJump();
                 break;
             case PlayerStateMode.WALK:
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
-
+                SwitchToJump();
                 break;
             case PlayerStateMode.SPRINT:
                 if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/)
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
+                SwitchToJump();
                 break;
             case PlayerStateMode.JUMP:
-
                 if (_jumpTimer < _jumpDuration)
                 {
                     _jumpTimer += Time.deltaTime;
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
-
+                else if (_jumpTimer >= _jumpDuration)  
+                {
+                    _jumpTimer = 0f;
+                    TransitionToState(PlayerStateMode.IDLE);
+                }
                 break;
             case PlayerStateMode.BASICPUNCH:
                 break;
@@ -121,7 +119,7 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
             case PlayerStateMode.JUMP:
                 _animator.SetBool("isJumping", false);
-                _jumpTimer = 0f;
+
                 break;
             case PlayerStateMode.BASICPUNCH:
                 break;
@@ -144,6 +142,14 @@ public class PlayerStateMachine : MonoBehaviour
             TransitionToState(PlayerStateMode.SPRINT);
         }
     }
+
+    private void SwitchToJump()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            TransitionToState(PlayerStateMode.JUMP);
+        }
+    }
     #endregion
 
     private Animator _animator;
@@ -151,5 +157,5 @@ public class PlayerStateMachine : MonoBehaviour
     private float _horizontal;
     private float _vertical;
     Transform _graphics;
-    float _jumpTimer;
+    public float _jumpTimer;
 }

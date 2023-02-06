@@ -255,18 +255,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.6
       objectReference: {fileID: 0}
@@ -306,110 +294,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734565698838548, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734565698838550, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734565698838550, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734565698838551, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002734565698838551, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
---- !u!1 &1735883812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2002734564474745362, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-  m_PrefabInstance: {fileID: 1346944238}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &1735883813
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735883812}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &1735883814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735883812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c3f90f7742a483db95a7a111f38c66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 70
-  _runSpeed: 1.5
---- !u!114 &1735883816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735883812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c049c27335e677409cd7295a63b437a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0014915466
-      value: 0
-      inSlope: 1.2718437
-      outSlope: 1.2718437
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.061194032
-    - serializedVersion: 3
-      time: 0.6008911
-      value: 0
-      inSlope: -1.2728386
-      outSlope: -1.2728386
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.035820812
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _jumpHeight: 1.4
-  _jumpDuration: 1
 --- !u!1 &2062628324
 GameObject:
   m_ObjectHideFlags: 0

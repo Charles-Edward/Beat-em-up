@@ -15,20 +15,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float _runSpeed = 1.3f;
 
-
-
-
     // Private & Protected
     private Rigidbody2D _rb2D;
     private Vector2 _direction;
 
-
-
     private void Awake()
     {
         _rb2D = GetComponent<Rigidbody2D>();
-        z = transform.Find("Sprite Renderer");
-
+        z = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Start()
@@ -39,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
+
     }
 
 
@@ -61,20 +56,23 @@ public class PlayerMovement : MonoBehaviour
     {
         _direction.x = Input.GetAxis("Horizontal");
         _direction.y = Input.GetAxis("Vertical");
-
+        Flip();
     }
 
     private void Flip()
     {
         if (_direction.x < 0)
         {
+            z.flipX= true;
+
         } 
         else if (_direction.x > 0) 
         {
-        
+            z.flipX = false;
         }
 
     }
 
-    private Transform z;
+    private SpriteRenderer z;
+ 
 }
