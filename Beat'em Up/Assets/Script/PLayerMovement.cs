@@ -1,6 +1,7 @@
 //  []
 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb2D = GetComponent<Rigidbody2D>();
-        z = GetComponentInChildren<SpriteRenderer>();
+        flip = GetComponentInChildren<SpriteRenderer>();
+        isStatic = false;
     }
 
     void Start()
@@ -33,20 +35,27 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
-
     }
 
 
     private void FixedUpdate()
     {
-        if (Input.GetButton("Fire3"))
+        if (isStatic)
         {
-            _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
+            _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
 
         }
         else
         {
-            _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+            if (Input.GetButton("Fire3"))
+            {
+                _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
+
+            }
+            else
+            {
+                _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+            }
         }
     }
 
@@ -54,8 +63,18 @@ public class PlayerMovement : MonoBehaviour
     // Méthode pour déplacer le player
     private void Move()
     {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            isStatic = true;
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            isStatic = false;
+        }
         _direction.x = Input.GetAxis("Horizontal");
         _direction.y = Input.GetAxis("Vertical");
+
+
         Flip();
     }
 
@@ -63,16 +82,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_direction.x < 0)
         {
-            z.flipX= true;
+            flip.flipX = true;
 
-        } 
-        else if (_direction.x > 0) 
+        }
+        else if (_direction.x > 0)
         {
-            z.flipX = false;
+            flip.flipX = false;
         }
 
     }
 
-    private SpriteRenderer z;
- 
+    private SpriteRenderer flip;
+    private bool isStatic;
+
 }

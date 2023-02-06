@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -19,6 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] float _jumpDuration = 3f;
     private void Awake()
     {
+        _rb2D = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
         _graphics = transform.Find("Graphic");
 
@@ -49,6 +51,7 @@ public class PlayerStateMachine : MonoBehaviour
                 _animator.SetBool("isJumping", true);
                 break;
             case PlayerStateMode.BASICPUNCH:
+                _animator.SetBool("isPunching", true);
                 break;
             default:
                 break;
@@ -59,7 +62,8 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _horizontal = Input.GetAxis("Horizontal");
         _vertical = Input.GetAxis("Vertical");
-
+        var magnitude = _rb2D.velocity.magnitude;
+        Debug.Log(magnitude);
         // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
         // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
         // jamais dans cette condition
@@ -70,14 +74,18 @@ public class PlayerStateMachine : MonoBehaviour
         switch (_currentState)
         {
             case PlayerStateMode.IDLE:
+
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
                 SwitchToJump();
+                SwitchToBasicPunch();
+
                 break;
             case PlayerStateMode.WALK:
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
                 SwitchToJump();
+                SwitchToBasicPunch();
                 break;
             case PlayerStateMode.SPRINT:
                 if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/)
@@ -93,13 +101,17 @@ public class PlayerStateMachine : MonoBehaviour
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
-                else if (_jumpTimer >= _jumpDuration)  
+                else if (_jumpTimer >= _jumpDuration)
                 {
                     _jumpTimer = 0f;
                     TransitionToState(PlayerStateMode.IDLE);
                 }
                 break;
             case PlayerStateMode.BASICPUNCH:
+                if (Input.GetButtonUp("Fire1"))
+                {
+                    TransitionToState(PlayerStateMode.IDLE);
+                }
                 break;
             default:
                 break;
@@ -119,9 +131,9 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
             case PlayerStateMode.JUMP:
                 _animator.SetBool("isJumping", false);
-
                 break;
             case PlayerStateMode.BASICPUNCH:
+                _animator.SetBool("isPunching", false);
                 break;
             default:
                 break;
@@ -150,12 +162,22 @@ public class PlayerStateMachine : MonoBehaviour
             TransitionToState(PlayerStateMode.JUMP);
         }
     }
+
+    private void SwitchToBasicPunch()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            TransitionToState(PlayerStateMode.BASICPUNCH);
+        }
+    }
     #endregion
 
     private Animator _animator;
+    private Rigidbody2D _rb2D;
     private PlayerStateMode _currentState;
     private float _horizontal;
     private float _vertical;
     Transform _graphics;
-    public float _jumpTimer;
+    private float _jumpTimer;
+    private bool _isStatic;
 }
