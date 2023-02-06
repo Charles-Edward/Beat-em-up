@@ -16,12 +16,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float _runSpeed = 1.3f;
 
+    [SerializeField] Animator _animator;
+    [SerializeField] WalkState _dir;
+
     // Private & Protected
     private Rigidbody2D _rb2D;
     private Vector2 _direction;
 
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
         _rb2D = GetComponent<Rigidbody2D>();
         flip = GetComponentInChildren<SpriteRenderer>();
         isStatic = false;
@@ -40,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("run") || _animator.GetCurrentAnimatorStateInfo(0).IsName("walk"))
+        //  {
+        Debug.Log(_direction);
         if (isStatic)
         {
             _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
@@ -57,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
                 _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
             }
         }
+        //    }
+
     }
 
 
@@ -77,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
 
         Flip();
     }
+
 
     private void Flip()
     {

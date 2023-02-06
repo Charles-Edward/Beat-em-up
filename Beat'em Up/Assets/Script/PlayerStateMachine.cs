@@ -98,15 +98,16 @@ public class PlayerStateMachine : MonoBehaviour
                 if (_jumpTimer < _jumpDuration)
                 {
                     _jumpTimer += Time.deltaTime;
+                    Debug.Log(_jumpTimer);
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
-                else if (_jumpTimer >= _jumpDuration)
+                else //if (_jumpTimer >= _jumpDuration)
                 {
                     _jumpTimer = 0f;
                     TransitionToState(PlayerStateMode.IDLE);
                 }
-                break;
+                break; 
             case PlayerStateMode.BASICPUNCH:
                 if (Input.GetButtonUp("Fire1"))
                 {
