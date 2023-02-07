@@ -18,12 +18,18 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] AnimationCurve _jumpCurve;
     [SerializeField] float _jumpHeight = 0.7f;
     [SerializeField] float _jumpDuration = 3f;
+    [SerializeField] private float _moveSpeed = 70f;
+    [SerializeField] private float _runSpeed = 1.3f;
+    private Vector2 _initialColliderOffset;
+
     private void Awake()
     {
+        _collider = gameObject.GetComponent<Collider2D>();
+        flip = GetComponentInChildren<SpriteRenderer>();
         _rb2D = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
         _graphics = transform.Find("Graphic");
-
+        _initialColliderOffset = _collider.offset;
     }
     void Start()
     {
@@ -33,8 +39,54 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Update()
     {
+        GetInputAndFlipSprite();
         OnStateUpdate();
     }
+
+    private void FixedUpdate()
+    {
+        if (_currentState.Equals(PlayerStateMode.BASICPUNCH))
+        {
+            _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
+
+        }
+        else
+        {
+            if (_currentState.Equals(PlayerStateMode.SPRINT))
+            {
+                _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
+
+            }
+            else
+            {
+                _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+            }
+        }
+    }
+
+    private void GetInputAndFlipSprite()
+    {
+
+        _direction.x = Input.GetAxis("Horizontal");
+        _direction.y = Input.GetAxis("Vertical");
+
+        Flip();
+    }
+
+    private void Flip()
+    {
+        if (_direction.x < 0)
+        {
+            flip.flipX = true;
+            _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y);
+        }
+        else if (_direction.x > 0)
+        {
+            flip.flipX = false;
+            _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
+        }
+    }
+
     #region States
     void OnStateEnter()
     {
@@ -60,16 +112,15 @@ public class PlayerStateMachine : MonoBehaviour
 
     void OnStateUpdate()
     {
-        _horizontal = Input.GetAxis("Horizontal");
-        _vertical = Input.GetAxis("Vertical");
+        _direction.x = Input.GetAxis("Horizontal");
+        _direction.y = Input.GetAxis("Vertical");
         var magnitude = _rb2D.velocity.magnitude;
-        Debug.Log(magnitude);
         // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
         // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
         // jamais dans cette condition
         // l'utilisation de Mathf.Max permet de récupérer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
         // du Y pour entrer dans la conditions de l'animator qui est actuellement : if(MoveSpeed > .1)
-        float maxValue = Mathf.Max(Mathf.Abs(_vertical), Mathf.Abs(_horizontal));
+        float maxValue = Mathf.Max(Mathf.Abs(_direction.y), Mathf.Abs(_direction.x));
 
         switch (_currentState)
         {
@@ -81,39 +132,58 @@ public class PlayerStateMachine : MonoBehaviour
                 SwitchToBasicPunch();
 
                 break;
+
             case PlayerStateMode.WALK:
                 _animator.SetFloat("MoveSpeed", maxValue);
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
                 break;
+
             case PlayerStateMode.SPRINT:
-                if (Input.GetButtonUp("Fire3") /*|| maxValue < 0.1*/)
+                if (Input.GetButtonUp("Fire3") /*|| maxValue <= 0.1 */ )
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
-                SwitchToJump();
+                else if (Input.GetButtonDown("Jump"))
+                {
+                    TransitionToState(PlayerStateMode.JUMP);
+                }
+                SwitchToSprint();
                 break;
+
             case PlayerStateMode.JUMP:
                 if (_jumpTimer < _jumpDuration)
                 {
                     _jumpTimer += Time.deltaTime;
-                    Debug.Log(_jumpTimer);
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
                 else //if (_jumpTimer >= _jumpDuration)
                 {
                     _jumpTimer = 0f;
-                    TransitionToState(PlayerStateMode.IDLE);
+                    if (magnitude > 0)
+                    {
+                        TransitionToState(PlayerStateMode.WALK);
+                    }
+                    else if (Input.GetButtonDown("Fire3"))
+                    {
+                        TransitionToState(PlayerStateMode.SPRINT);
+                    }
+                    else
+                    {
+                        TransitionToState(PlayerStateMode.IDLE);
+                    }
                 }
-                break; 
+                break;
+
             case PlayerStateMode.BASICPUNCH:
                 if (Input.GetButtonUp("Fire1"))
                 {
                     TransitionToState(PlayerStateMode.IDLE);
                 }
                 break;
+
             default:
                 break;
         }
@@ -175,10 +245,10 @@ public class PlayerStateMachine : MonoBehaviour
 
     private Animator _animator;
     private Rigidbody2D _rb2D;
+    private Vector2 _direction;
     private PlayerStateMode _currentState;
-    private float _horizontal;
-    private float _vertical;
+    private SpriteRenderer flip;
     Transform _graphics;
     private float _jumpTimer;
-    private bool _isStatic;
+    private Collider2D _collider;
 }
