@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5fd78c9a02411848924c539af463b3a, type: 3}
-  m_Name: Hp
+  m_Name: Int_Player
   m_EditorClassIdentifier: 
-  m_value: 10
+  m_health: 100
+  m_mana: 100

@@ -686,7 +686,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -748,18 +748,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 366674581, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 366674581, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.412
-      objectReference: {fileID: 0}
-    - target: {fileID: 366674581, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.03
-      objectReference: {fileID: 0}
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _healthBar
+      value: 
+      objectReference: {fileID: 1847329506}
     - target: {fileID: 2002734564474745362, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_Name
       value: ----Player----
@@ -921,6 +913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1847329504}
   - component: {fileID: 1847329505}
+  - component: {fileID: 1847329506}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1000,6 +993,49 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1847329506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847329503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f172966b71d9a547856527e2a4b685f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 1847329505}
+  _gradient:
+    serializedVersion: 2
+    key0: {r: 0.9245283, g: 0.16135636, b: 0.16135636, a: 1}
+    key1: {r: 1, g: 0.8510544, b: 0.13679248, a: 1}
+    key2: {r: 0.18985717, g: 0.745283, b: 0.010546438, a: 1}
+    key3: {r: 0, g: 0, b: 0, a: 1}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 21627
+    ctime1: 43253
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 65535
+    atime3: 65535
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 1
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
+  _fill: {fileID: 170312419}
 --- !u!1 &2062628324
 GameObject:
   m_ObjectHideFlags: 0

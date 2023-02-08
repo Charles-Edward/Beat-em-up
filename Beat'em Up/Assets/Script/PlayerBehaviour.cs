@@ -13,23 +13,44 @@ enum PlayerStateMode
     BASICPUNCH
 }
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour
 {
+    #region SerializeField & public
+    [Header("Jump Settings")]
     [SerializeField] AnimationCurve _jumpCurve;
     [SerializeField] float _jumpHeight = 0.7f;
     [SerializeField] float _jumpDuration = 3f;
+
+    [Header("Movements")]
     [SerializeField] private float _moveSpeed = 70f;
     [SerializeField] private float _runSpeed = 1.3f;
-    private Vector2 _initialColliderOffset;
 
+    [Header("Stats Player")]
+    [SerializeField] HealthBar _healthBar;
+    [SerializeField] IntVariable _dataInt;
+    [SerializeField] int _currentHealth;
+    [SerializeField] int _currentMana;
+    #endregion
+
+    #region Unity Lifecycle
     private void Awake()
-    {
+    { 
+        // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
+        _initialColliderOffset = _collider.offset;
         flip = GetComponentInChildren<SpriteRenderer>();
+        _graphics = transform.Find("Graphic");
+        // -----------------------------------------
+
         _rb2D = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
-        _graphics = transform.Find("Graphic");
-        _initialColliderOffset = _collider.offset;
+
+        // ---- Stats player ----
+        _currentMana = _dataInt.m_mana;
+        _currentHealth = _dataInt.m_health;
+        _healthBar.SetMaxHealth(_dataInt.m_health);
+        // _manaBar.SetMaxMana(_maxMana.m_mana);
+        // ----------------------
     }
     void Start()
     {
@@ -45,25 +66,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_currentState.Equals(PlayerStateMode.BASICPUNCH))
-        {
-            _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
-
-        }
-        else
-        {
-            if (_currentState.Equals(PlayerStateMode.SPRINT))
-            {
-                _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
-
-            }
-            else
-            {
-                _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
-            }
-        }
+        MoveAndSprint();
     }
+    #endregion
 
+    #region Methods
     private void GetInputAndFlipSprite()
     {
 
@@ -78,7 +85,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (_direction.x < 0)
         {
             flip.flipX = true;
-            _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y);
+            _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
         }
         else if (_direction.x > 0)
         {
@@ -86,6 +93,42 @@ public class PlayerStateMachine : MonoBehaviour
             _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
         }
     }
+
+    private void MoveAndSprint()
+    {
+        if (_currentState.Equals(PlayerStateMode.BASICPUNCH)) // Si on frappe on ne bouge pas
+        {
+            _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
+
+        }
+        else
+        {
+            if (_currentState.Equals(PlayerStateMode.SPRINT)) // si on sprint on multiplie _moveSpeed pour aller plus vite
+            {
+                _rb2D.velocity = _direction.normalized * (_moveSpeed * _runSpeed) * Time.fixedDeltaTime;
+
+            }
+            else // sinon on avance normalement
+            {
+                _rb2D.velocity = _direction.normalized * _moveSpeed * Time.fixedDeltaTime;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            TakeDamage(10);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+        _healthBar.SetHealth(_currentHealth);
+    }
+    #endregion
 
     #region States
     void OnStateEnter()
@@ -126,7 +169,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerStateMode.IDLE:
 
-                _animator.SetFloat("MoveSpeed", maxValue);
+                _animator.SetFloat("MoveSpeed", magnitude);
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
@@ -134,18 +177,18 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
 
             case PlayerStateMode.WALK:
-                _animator.SetFloat("MoveSpeed", maxValue);
+                _animator.SetFloat("MoveSpeed", magnitude);
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
                 break;
 
             case PlayerStateMode.SPRINT:
-                if (Input.GetButtonUp("Fire3") /*|| maxValue <= 0.1 */ )
+                if (Input.GetButtonUp("Fire3")) // si on arrête d'appuyer sur sprint on repasse en walk
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
-                else if (Input.GetButtonDown("Jump"))
+                else if (Input.GetButtonDown("Jump")) // permet de sauter dans l'état sprint
                 {
                     TransitionToState(PlayerStateMode.JUMP);
                 }
@@ -159,10 +202,10 @@ public class PlayerStateMachine : MonoBehaviour
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
-                else //if (_jumpTimer >= _jumpDuration)
+                else 
                 {
                     _jumpTimer = 0f;
-                    if (magnitude > 0)
+                    if (magnitude > 0) // si la vraie vitesse (magnitude) est supérieure à 0 on marche
                     {
                         TransitionToState(PlayerStateMode.WALK);
                     }
@@ -178,7 +221,7 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
 
             case PlayerStateMode.BASICPUNCH:
-                if (Input.GetButtonUp("Fire1"))
+                if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
                 }
@@ -243,12 +286,15 @@ public class PlayerStateMachine : MonoBehaviour
     }
     #endregion
 
+    #region Privates
+    private PlayerStateMode _currentState;
+    private Vector2 _direction;
     private Animator _animator;
     private Rigidbody2D _rb2D;
-    private Vector2 _direction;
-    private PlayerStateMode _currentState;
     private SpriteRenderer flip;
-    Transform _graphics;
+    private Transform _graphics;
     private float _jumpTimer;
     private Collider2D _collider;
+    private Vector2 _initialColliderOffset;
+    #endregion
 }
