@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu( fileName = "newIntVariable", menuName = "Variables/IntVariable")]
 public class IntVariable : ScriptableObject
 {
-    public int m_health;
-    public int m_mana;
+    public int player_health;
+    public int player_mana;
+    public int enemie_health;
+    public int boss_health;
 }

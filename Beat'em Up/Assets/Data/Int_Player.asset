@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5fd78c9a02411848924c539af463b3a, type: 3}
   m_Name: Int_Player
   m_EditorClassIdentifier: 
-  m_health: 100
-  m_mana: 100
+  player_health: 100
+  player_mana: 0
+  enemie_health: 20
+  boss_health: 60

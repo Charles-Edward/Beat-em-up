@@ -47,9 +47,9 @@ public class PlayerBehaviour : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
 
         // ---- Stats player ----
-        _currentMana = _dataInt.m_mana;
-        _currentHealth = _dataInt.m_health;
-        _healthBar.SetMaxHealth(_dataInt.m_health);
+        _currentMana = _dataInt.player_mana;
+        _currentHealth = _dataInt.player_health;
+        _healthBar.SetMaxHealth(_dataInt.player_health);
         // _manaBar.SetMaxMana(_maxMana.m_mana);
         // ----------------------
     }
@@ -120,15 +120,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /* private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage(10);
         }
-    }
+    } */
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
         _healthBar.SetHealth(_currentHealth);
