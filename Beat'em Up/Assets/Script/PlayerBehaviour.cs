@@ -10,7 +10,8 @@ enum PlayerStateMode
     WALK,
     SPRINT,
     JUMP,
-    BASICPUNCH
+    BASICPUNCH,
+    DEATH
 }
 
 public class PlayerBehaviour : MonoBehaviour
@@ -34,7 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     #region Unity Lifecycle
     private void Awake()
-    { 
+    {
         // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
         _initialColliderOffset = _collider.offset;
@@ -82,21 +83,25 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Flip()
     {
-        if (_direction.x < 0)
+        if (!_currentState.Equals(PlayerStateMode.DEATH))
         {
-            flip.flipX = true;
-            _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
-        }
-        else if (_direction.x > 0)
-        {
-            flip.flipX = false;
-            _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
+
+            if (_direction.x < 0)
+            {
+                flip.flipX = true;
+                _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
+            }
+            else if (_direction.x > 0)
+            {
+                flip.flipX = false;
+                _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
+            }
         }
     }
 
     private void MoveAndSprint()
     {
-        if (_currentState.Equals(PlayerStateMode.BASICPUNCH)) // Si on frappe on ne bouge pas
+        if (_currentState.Equals(PlayerStateMode.BASICPUNCH) || _currentState.Equals(PlayerStateMode.DEATH)) // Si on frappe on ne bouge pas
         {
             _rb2D.velocity = _direction.normalized * 0 * Time.fixedDeltaTime;
 
@@ -148,6 +153,9 @@ public class PlayerBehaviour : MonoBehaviour
             case PlayerStateMode.BASICPUNCH:
                 _animator.SetBool("isPunching", true);
                 break;
+            case PlayerStateMode.DEATH:
+                _animator.SetBool("isDead", true);
+                break;
             default:
                 break;
         }
@@ -173,6 +181,7 @@ public class PlayerBehaviour : MonoBehaviour
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
+                SwitchToDeath();
 
                 break;
 
@@ -181,6 +190,7 @@ public class PlayerBehaviour : MonoBehaviour
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
+                SwitchToDeath();
                 break;
 
             case PlayerStateMode.SPRINT:
@@ -193,6 +203,7 @@ public class PlayerBehaviour : MonoBehaviour
                     TransitionToState(PlayerStateMode.JUMP);
                 }
                 SwitchToSprint();
+                SwitchToDeath();
                 break;
 
             case PlayerStateMode.JUMP:
@@ -202,7 +213,7 @@ public class PlayerBehaviour : MonoBehaviour
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
-                else 
+                else
                 {
                     _jumpTimer = 0f;
                     if (magnitude > 0) // si la vraie vitesse (magnitude) est supérieure à 0 on marche
@@ -223,10 +234,13 @@ public class PlayerBehaviour : MonoBehaviour
             case PlayerStateMode.BASICPUNCH:
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
+                    SwitchToDeath();
                     TransitionToState(PlayerStateMode.IDLE);
                 }
                 break;
 
+            case PlayerStateMode.DEATH:
+                break;
             default:
                 break;
         }
@@ -248,6 +262,9 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case PlayerStateMode.BASICPUNCH:
                 _animator.SetBool("isPunching", false);
+                break;
+            case PlayerStateMode.DEATH:
+                _animator.SetBool("isDead", false);
                 break;
             default:
                 break;
@@ -282,6 +299,13 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             TransitionToState(PlayerStateMode.BASICPUNCH);
+        }
+    }
+    private void SwitchToDeath()
+    {
+        if (_currentHealth <= 0)
+        {
+            TransitionToState(PlayerStateMode.DEATH);
         }
     }
     #endregion
