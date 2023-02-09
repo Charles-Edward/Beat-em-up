@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Int_Player
   m_EditorClassIdentifier: 
   player_health: 100
-  player_mana: 0
-  enemie_health: 20
-  boss_health: 60
+  player_mana: 100
+  enemie_health: 100
+  boss_health: 150
+  damagesToPlayer: 10
+  damagesToEnemies: 40

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Playables;
 
 enum PlayerStateMode
@@ -31,7 +33,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] IntVariable _dataInt;
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
-    [SerializeField] private Collider2D _colliderDmg;
+    private Vector2 _localScale;
+    [SerializeField] private GameObject _hitBoxFist;
     #endregion
 
     #region Unity Lifecycle
@@ -39,7 +42,10 @@ public class PlayerBehaviour : MonoBehaviour
     {
         // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
+        _localScale = transform.localScale;
+        _hitBoxFist.SetActive(false);
         _initialColliderOffset = _collider.offset;
+
         flip = GetComponentInChildren<SpriteRenderer>();
         _graphics = transform.Find("Graphic");
         // -----------------------------------------
@@ -51,7 +57,6 @@ public class PlayerBehaviour : MonoBehaviour
         _currentMana = _dataInt.player_mana;
         _currentHealth = _dataInt.player_health;
         _healthBar.SetMaxHealth(_dataInt.player_health);
-        // _colliderDmg = _colliderDmg.offset;
         // _manaBar.SetMaxMana(_maxMana.m_mana);
         // ----------------------
     }
@@ -63,6 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+
         GetInputAndFlipSprite();
         SwitchToDeath();
         OnStateUpdate();
@@ -91,13 +97,15 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (_direction.x < 0)
             {
-                flip.flipX = true;
+                // flip.flipX = true;
                 _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
+                transform.localScale = new Vector2(-_localScale.x, _localScale.y);
             }
             else if (_direction.x > 0)
             {
-                flip.flipX = false;
+                //flip.flipX = false;
                 _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
+                transform.localScale = new Vector2(_localScale.x, _localScale.y);
             }
         }
     }
@@ -123,12 +131,20 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    /* private void OnTriggerEnter2D(Collider2D collision)
+
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+       // Debug.Log("P collided with " + collision.otherCollider);
+
+        if (collision.transform.CompareTag("HitBox"))
         {
+            Debug.Log("enemy hit");
+            TakeDamage(50);
         }
-    } */
+    }
+
 
     public void TakeDamage(int damage)
     {
@@ -218,6 +234,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     _jumpTimer += Time.deltaTime;
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
+                    Debug.Log(y * _jumpHeight);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
                 else
@@ -239,6 +256,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.BASICPUNCH:
+                _hitBoxFist.SetActive(true);
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
@@ -268,6 +286,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case PlayerStateMode.BASICPUNCH:
                 _animator.SetBool("isPunching", false);
+                _hitBoxFist.SetActive(false);
                 break;
             case PlayerStateMode.DEATH:
                 _animator.SetBool("isDead", false);
@@ -288,8 +307,13 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire3"))
         {
-            TransitionToState(PlayerStateMode.SPRINT);
             _buttonSprint = true;
+            TransitionToState(PlayerStateMode.SPRINT);
+        }
+        else if (Input.GetButtonUp("Fire3"))
+        {
+            _buttonSprint = false;
+            TransitionToState(PlayerStateMode.IDLE);
         }
 
     }

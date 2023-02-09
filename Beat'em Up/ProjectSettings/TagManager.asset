@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Pied
+  - HitBox
+  - Spawn
+  - HitBoxPlayer
   layers:
   - Default
   - TransparentFX

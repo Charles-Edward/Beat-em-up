@@ -9,4 +9,6 @@ public class IntVariable : ScriptableObject
     public int player_mana;
     public int enemie_health;
     public int boss_health;
+    public int damagesToPlayer;
+    public int damagesToEnemies;
 }
