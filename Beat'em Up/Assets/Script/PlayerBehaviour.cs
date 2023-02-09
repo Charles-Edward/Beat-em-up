@@ -31,6 +31,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] IntVariable _dataInt;
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
+    [SerializeField] private Collider2D _colliderDmg;
     #endregion
 
     #region Unity Lifecycle
@@ -50,6 +51,7 @@ public class PlayerBehaviour : MonoBehaviour
         _currentMana = _dataInt.player_mana;
         _currentHealth = _dataInt.player_health;
         _healthBar.SetMaxHealth(_dataInt.player_health);
+        // _colliderDmg = _colliderDmg.offset;
         // _manaBar.SetMaxMana(_maxMana.m_mana);
         // ----------------------
     }
@@ -62,6 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         GetInputAndFlipSprite();
+        SwitchToDeath();
         OnStateUpdate();
     }
 
@@ -193,16 +196,21 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.SPRINT:
-                if (Input.GetButtonUp("Fire3")) // si on arrête d'appuyer sur sprint on repasse en walk
+
+                if (Input.GetButtonUp("Fire3"))  // si on arrête d'appuyer sur sprint on repasse en walk
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
+                else if (magnitude == 0)
+                {
+
+                    TransitionToState(PlayerStateMode.IDLE);
+                }
+
                 else if (Input.GetButtonDown("Jump")) // permet de sauter dans l'état sprint
                 {
                     TransitionToState(PlayerStateMode.JUMP);
                 }
-                SwitchToSprint();
-                SwitchToDeath();
                 break;
 
             case PlayerStateMode.JUMP:
@@ -233,7 +241,6 @@ public class PlayerBehaviour : MonoBehaviour
             case PlayerStateMode.BASICPUNCH:
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
-                    SwitchToDeath();
                     TransitionToState(PlayerStateMode.IDLE);
                 }
                 break;
@@ -282,7 +289,9 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetButtonDown("Fire3"))
         {
             TransitionToState(PlayerStateMode.SPRINT);
+            _buttonSprint = true;
         }
+
     }
 
     private void SwitchToJump()
@@ -319,5 +328,6 @@ public class PlayerBehaviour : MonoBehaviour
     private float _jumpTimer;
     private Collider2D _collider;
     private Vector2 _initialColliderOffset;
+    private bool _buttonSprint;
     #endregion
 }
