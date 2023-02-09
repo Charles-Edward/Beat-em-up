@@ -155,6 +155,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &560466934 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1772624686, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+  m_PrefabInstance: {fileID: 1346944238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &651532352
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +270,7 @@ PrefabInstance:
     - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: _colliderDmg
       value: 
-      objectReference: {fileID: 1772624686}
+      objectReference: {fileID: 560466934}
     - target: {fileID: 2002734564474745362, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_Name
       value: ----Player----
@@ -507,64 +512,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
   m_PrefabInstance: {fileID: 1346944238}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1772624684
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1772624685}
-  - component: {fileID: 1772624686}
-  m_Layer: 0
-  m_Name: HitBox
-  m_TagString: HitBox
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1772624685
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772624684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1735883817}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1772624686
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772624684}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.1, y: 0.20347112}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.1}
-  m_EdgeRadius: 0
 --- !u!1 &2062628324
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +603,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 769992183, guid: 5cc187b1722674d7eb23c64abf120345, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070389224, guid: 5cc187b1722674d7eb23c64abf120345, type: 3}
+      propertyPath: _dataInt
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
     - target: {fileID: 1070389224, guid: 5cc187b1722674d7eb23c64abf120345, type: 3}
       propertyPath: _moveTarget
       value: 
@@ -708,7 +663,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ----GreenEnemy----
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1388256660102961221, guid: 5cc187b1722674d7eb23c64abf120345, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5cc187b1722674d7eb23c64abf120345, type: 3}
 --- !u!1 &1388256660102961218 stripped
 GameObject:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Playables;
@@ -33,6 +34,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
     [SerializeField] private Collider2D _colliderDmg;
+    private Vector2 _colliderDmgOffset;
+    private Vector2 _localScale;
     #endregion
 
     #region Unity Lifecycle
@@ -40,7 +43,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
+        _localScale = transform.localScale;
+
+        _colliderDmgOffset = _colliderDmg.offset;
         _initialColliderOffset = _collider.offset;
+
         flip = GetComponentInChildren<SpriteRenderer>();
         _graphics = transform.Find("Graphic");
         // -----------------------------------------
@@ -52,7 +59,6 @@ public class PlayerBehaviour : MonoBehaviour
         _currentMana = _dataInt.player_mana;
         _currentHealth = _dataInt.player_health;
         _healthBar.SetMaxHealth(_dataInt.player_health);
-        // _colliderDmg = _colliderDmg.offset;
         // _manaBar.SetMaxMana(_maxMana.m_mana);
         // ----------------------
     }
@@ -93,13 +99,16 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (_direction.x < 0)
             {
-                flip.flipX = true;
+               // flip.flipX = true;
                 _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
+                //_colliderDmg.offset = new Vector2(-_colliderDmgOffset.x, _colliderDmgOffset.y);
+                transform.localScale = new Vector2(-_localScale.x, _localScale.y);
             }
             else if (_direction.x > 0)
             {
-                flip.flipX = false;
+                //flip.flipX = false;
                 _collider.offset = new Vector2(_initialColliderOffset.x, _collider.offset.y);
+                transform.localScale = new Vector2(_localScale.x, _localScale.y);
             }
         }
     }
