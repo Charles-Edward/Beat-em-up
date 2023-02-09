@@ -99,7 +99,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (_direction.x < 0)
             {
-               // flip.flipX = true;
+                // flip.flipX = true;
                 _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
                 //_colliderDmg.offset = new Vector2(-_colliderDmgOffset.x, _colliderDmgOffset.y);
                 transform.localScale = new Vector2(-_localScale.x, _localScale.y);
@@ -134,12 +134,13 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Enemy"))
         {
-            EnemiesDamage enemieplayerHealth = collision.transform.GetComponent<EnemiesDamage>();
-            enemieplayerHealth.GetDamage(50);
+            EnemyStateMachine playerHealth = collision.transform.GetComponent<EnemyStateMachine>();
+            playerHealth.GetDamage(50);
         }
     }
 
