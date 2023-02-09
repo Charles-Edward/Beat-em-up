@@ -454,6 +454,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _healthBar
+      value: 
+      objectReference: {fileID: 1494213537}
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: _jumpHeight
       value: 2
       objectReference: {fileID: 0}
@@ -533,6 +537,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2002734565698838548, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1f18d7cb98362f64bbf8021012639e85, type: 2}
     - target: {fileID: 2002734565698838550, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -760,51 +768,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1735883816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735883812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c049c27335e677409cd7295a63b437a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0014915466
-      value: 0
-      inSlope: 1.2718437
-      outSlope: 1.2718437
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.061194032
-    - serializedVersion: 3
-      time: 0.6008911
-      value: 0
-      inSlope: -1.2728386
-      outSlope: -1.2728386
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.035820812
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _jumpHeight: 1.4
-  _jumpDuration: 1
-  _moveSpeed: 70
-  _runSpeed: 1.3
-  _healthBar: {fileID: 1494213537}
-  _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
-  _currentHealth: 0
-  _currentMana: 0
-  _colliderDmg: {fileID: 1735883818}
 --- !u!4 &1735883817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2002734564474745365, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
