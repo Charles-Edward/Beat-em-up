@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Playables;
 
 enum PlayerStateMode
@@ -63,6 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+
         GetInputAndFlipSprite();
         SwitchToDeath();
         OnStateUpdate();
@@ -218,6 +220,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     _jumpTimer += Time.deltaTime;
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
+                    Debug.Log(y * _jumpHeight);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
                 else
@@ -288,8 +291,13 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire3"))
         {
-            TransitionToState(PlayerStateMode.SPRINT);
             _buttonSprint = true;
+            TransitionToState(PlayerStateMode.SPRINT);
+        }
+        else if (Input.GetButtonUp("Fire3"))
+        {
+            _buttonSprint = false;
+            TransitionToState(PlayerStateMode.IDLE);
         }
 
     }
