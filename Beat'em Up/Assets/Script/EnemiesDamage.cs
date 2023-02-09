@@ -29,7 +29,7 @@ public class EnemiesDamage : MonoBehaviour
         if (collision.transform.CompareTag("Player"))
         {
             PlayerBehaviour playerHealth = collision.transform.GetComponent<PlayerBehaviour>();
-            playerHealth.TakeDamage(50);
+            playerHealth.TakeDamage(20);
         }
     }
 

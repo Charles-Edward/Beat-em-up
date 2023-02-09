@@ -31,7 +31,7 @@ public class EnemiesSpawn : MonoBehaviour
         
     }
 
-
+    // Méthode pour faire spawn les ennemis quand ils rentrent dans le trigger
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -44,10 +44,6 @@ public class EnemiesSpawn : MonoBehaviour
 
                    _enemyCount++;
                     Instantiate(_enemyPrefab, item.transform.position, Quaternion.identity);
-
-                
-
-
 
             }
            Destroy(this);

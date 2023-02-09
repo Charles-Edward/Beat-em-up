@@ -47,7 +47,7 @@ public class EnemyStateMachine : MonoBehaviour
     private SpriteRenderer _flip;
     private Collider2D _collider2D;
     private Vector2 _initialColliderOffset;
-    private int _enemyCount;
+    
 
     private void Awake()
     {
@@ -65,18 +65,7 @@ public class EnemyStateMachine : MonoBehaviour
     void Update()
     {
         OnStateUpdate();
-        /*_lastPositionX = transform.position.x;
-        if (transform.position.x < 0)
-        {
-            _flip.flipX = false;
-
-        }
-        else if (transform.position.x > 0)
-        {
-            _flip.flipX = true;
-        }*/
         
-
         if (_lastPositionX.position.x > _moveTarget.position.x)
         {
             //Debug.Log("je regarde vers la gauche");
@@ -91,14 +80,6 @@ public class EnemyStateMachine : MonoBehaviour
             _collider2D.offset = new Vector2(_initialColliderOffset.x, _collider2D.offset.y);
 
         }
-
-
-    }
-
-    private void FixedUpdate()
-    {
-
-
 
 
     }
@@ -149,8 +130,7 @@ public class EnemyStateMachine : MonoBehaviour
                     if(_attackTimer >= _waitingTimeBeforeAttack)
                     {
                         TransitionToState(EnemyStateMode.ATTACK);
-                        
-
+                     
                     }
                 }
                 break;
@@ -164,32 +144,22 @@ public class EnemyStateMachine : MonoBehaviour
                 {
                     TransitionToState(EnemyStateMode.IDLE);
 
-
                 }
-
-
                 if (!_playerDetected)
                 {
                     TransitionToState(EnemyStateMode.IDLE);
-
-
                 }
 
                 break;
             case EnemyStateMode.ATTACK:
-                //_animator.SetBool("isAttacking", true);
-                //_hitBox.SetActive(true);
                 _attackTimer += Time.deltaTime;
                 if (_attackTimer >= _attackDuration)
                 {
                     TransitionToState(EnemyStateMode.IDLE);
-
                 }
                 break;
             case EnemyStateMode.DEATH:
                 break;
-
-
             default:
                 break;
         }
@@ -209,14 +179,10 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
             case EnemyStateMode.ATTACK:
                 _hitBox.SetActive(false);
-                
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
-                
                 break;
-
-
             default:
                 break;
         }
@@ -229,7 +195,6 @@ public class EnemyStateMachine : MonoBehaviour
         OnStateExit();
         _currentState = nextState;
         OnStateEnter();
-
 
     }
 
@@ -263,6 +228,8 @@ public class EnemyStateMachine : MonoBehaviour
     {
         if (collision.collider.CompareTag("HitBox"))
         {
+
+
         }
 
     }
