@@ -453,6 +453,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _jumpHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _colliderDmg
+      value: 
+      objectReference: {fileID: 1735883818}
     - target: {fileID: 2002734564474745362, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_Name
       value: ----Player----
