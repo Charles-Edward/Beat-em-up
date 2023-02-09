@@ -18,8 +18,12 @@ public class EnemiesDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (_currentHealth == 0)
+        {
+            transform.position = transform.position;
+        }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Player"))
@@ -29,5 +33,9 @@ public class EnemiesDamage : MonoBehaviour
         }
     }
 
+    public void GetDamage(int damage)
+    {
+        _currentHealth -= damage;
+    }
     [SerializeField] private int _currentHealth;
 }

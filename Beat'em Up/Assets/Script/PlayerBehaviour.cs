@@ -125,12 +125,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    /* private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.transform.CompareTag("Enemy"))
         {
+            EnemiesDamage enemieplayerHealth = collision.transform.GetComponent<EnemiesDamage>();
+            enemieplayerHealth.GetDamage(50);
         }
-    } */
+    }
 
     public void TakeDamage(int damage)
     {

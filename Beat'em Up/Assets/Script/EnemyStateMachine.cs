@@ -263,11 +263,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         if (collision.collider.CompareTag("HitBox"))
         {
-            Debug.Log("player prend des dégats");
-
         }
-
-
 
     }
 
