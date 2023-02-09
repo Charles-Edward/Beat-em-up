@@ -34,10 +34,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Transform _lastPositionX;
     [SerializeField]
     private GameObject _hitBox;
-    [SerializeField]
-    private GameObject _enemiesPrefab;
-    [SerializeField]
-    private GameObject _enemySpawn;
+    
 
 
 
