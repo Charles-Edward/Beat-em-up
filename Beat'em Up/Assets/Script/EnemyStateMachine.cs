@@ -37,7 +37,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] 
     private IntVariable _dataInt;
     [SerializeField] 
-    private int _currentHealth;
+    private int _enemyHealth;
 
 
 
@@ -60,12 +60,13 @@ public class EnemyStateMachine : MonoBehaviour
         _collider2D = gameObject.GetComponentInChildren<Collider2D>();
         _initialColliderOffset = _collider2D.offset;
         _hitBox.SetActive(false);
-        _currentHealth = _dataInt.enemie_health;
+        _enemyHealth = _dataInt.enemie_health;
     }
     void Start()
     {
         TransitionToState(EnemyStateMode.IDLE);
         //_moveTarget = GameObject.Find("Player").transform; // GetComponent<Transform>();
+
     }
 
     void Update()
@@ -86,7 +87,7 @@ public class EnemyStateMachine : MonoBehaviour
             _collider2D.offset = new Vector2(_initialColliderOffset.x, _collider2D.offset.y);
 
         }
-        if (_currentHealth == 0)
+        if (_enemyHealth == 0)
         {
             transform.position = transform.position;
         }
@@ -233,18 +234,18 @@ public class EnemyStateMachine : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+   private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("HitBoxPlayer"))
         {
-            PlayerBehaviour playerHealth = collision.transform.GetComponent<PlayerBehaviour>();
-            playerHealth.TakeDamage(_dataInt.damages);
+            Debug.Log("enemy hit");
+            GetDamage(50);
         }
     }
 
     public void GetDamage(int damage)
     {
-        _currentHealth -= damage;
+        _enemyHealth -= damage;
     }
 
 }

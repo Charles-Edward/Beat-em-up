@@ -33,9 +33,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] IntVariable _dataInt;
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
-    [SerializeField] private Collider2D _colliderDmg;
-    private Vector2 _colliderDmgOffset;
     private Vector2 _localScale;
+    [SerializeField] private GameObject _hitBoxFist;
     #endregion
 
     #region Unity Lifecycle
@@ -44,8 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
         // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
         _localScale = transform.localScale;
-
-        _colliderDmgOffset = _colliderDmg.offset;
+        _hitBoxFist.SetActive(false);
         _initialColliderOffset = _collider.offset;
 
         flip = GetComponentInChildren<SpriteRenderer>();
@@ -101,7 +99,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // flip.flipX = true;
                 _collider.offset = new Vector2(-_initialColliderOffset.x, _collider.offset.y); // flip du collider pour coller un peu plus au sprite 2d
-                //_colliderDmg.offset = new Vector2(-_colliderDmgOffset.x, _colliderDmgOffset.y);
                 transform.localScale = new Vector2(-_localScale.x, _localScale.y);
             }
             else if (_direction.x > 0)
@@ -135,14 +132,19 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Enemy"))
+       // Debug.Log("P collided with " + collision.otherCollider);
+
+        if (collision.transform.CompareTag("HitBox"))
         {
-            EnemyStateMachine playerHealth = collision.transform.GetComponent<EnemyStateMachine>();
-            playerHealth.GetDamage(50);
+            Debug.Log("enemy hit");
+            TakeDamage(50);
         }
     }
+
 
     public void TakeDamage(int damage)
     {
@@ -254,6 +256,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.BASICPUNCH:
+                _hitBoxFist.SetActive(true);
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
@@ -283,6 +286,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case PlayerStateMode.BASICPUNCH:
                 _animator.SetBool("isPunching", false);
+                _hitBoxFist.SetActive(false);
                 break;
             case PlayerStateMode.DEATH:
                 _animator.SetBool("isDead", false);

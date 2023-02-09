@@ -28,6 +28,7 @@ public class EnemiesDamage : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
+            Debug.Log("Ia tape");
             PlayerBehaviour playerHealth = collision.transform.GetComponent<PlayerBehaviour>();
             playerHealth.TakeDamage(20);
         }
