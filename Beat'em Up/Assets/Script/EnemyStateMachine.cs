@@ -77,22 +77,25 @@ public class EnemyStateMachine : MonoBehaviour
         OnStateUpdate();
         if (_enemyHealth > 0)
         {
+            Vector3 scale = transform.localScale;
             if (_lastPositionX.position.x > _moveTarget.position.x)
             {
-                transform.localScale = new Vector2(-_localScale.x, _localScale.y);
-                //Debug.Log("je regarde vers la gauche");
+                scale.x = -1;
                 // _flip.flipX = true;
                 //_collider2D.offset = new Vector2(-_initialColliderOffset.x, _collider2D.offset.y);
 
             }
             else if (_lastPositionX.position.x < _moveTarget.position.x)
             {
-                //Debug.Log("je regarde vers la droite");
-                //_flip.flipX = false;
+                // _flip.flipX = false;
                 //_collider2D.offset = new Vector2(_initialColliderOffset.x, _collider2D.offset.y);
-                transform.localScale = new Vector2(_localScale.x, _localScale.y);
+                //transform.localScale = new Vector2(_localScale.x, _localScale.y);
+                scale.x = 1;
             }
+            transform.localScale = scale;
         }
+
+
 
     }
 
