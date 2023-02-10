@@ -33,11 +33,9 @@ public class WalkState : StateMachineBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            isStatic = true;
         }
         if (Input.GetButtonUp("Fire1"))
         {
-            isStatic = false;
         }
         _direction.x = _horizontal = Input.GetAxis("Horizontal");
         _direction.y = _vertical = Input.GetAxis("Vertical");
@@ -47,6 +45,5 @@ public class WalkState : StateMachineBehaviour
     private float _vertical;
     public Vector2 _direction;
     private Rigidbody2D _rb2D;
-    private bool isStatic;
 
 }

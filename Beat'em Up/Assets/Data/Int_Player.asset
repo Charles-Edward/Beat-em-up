@@ -16,5 +16,5 @@ MonoBehaviour:
   player_mana: 100
   enemie_health: 100
   boss_health: 150
-  damagesToPlayer: 10
+  damagesToPlayer: 50
   damagesToEnemies: 40

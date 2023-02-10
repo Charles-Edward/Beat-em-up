@@ -34,9 +34,9 @@ public class EnemyStateMachine : MonoBehaviour
     private Transform _lastPositionX;
     [SerializeField]
     private GameObject _hitBox;
-    [SerializeField] 
+    [SerializeField]
     private IntVariable _dataInt;
-    [SerializeField] 
+    [SerializeField]
     private int _enemyHealth;
 
 
@@ -52,10 +52,12 @@ public class EnemyStateMachine : MonoBehaviour
     private SpriteRenderer _flip;
     private Collider2D _collider2D;
     private Vector2 _initialColliderOffset;
-    
+    private Vector2 _localScale;
+
 
     private void Awake()
     {
+        _localScale = transform.localScale;
         _flip = GetComponentInChildren<SpriteRenderer>();
         _collider2D = gameObject.GetComponentInChildren<Collider2D>();
         _initialColliderOffset = _collider2D.offset;
@@ -71,25 +73,25 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Update()
     {
+        IsDead();
         OnStateUpdate();
-        
-        if (_lastPositionX.position.x > _moveTarget.position.x)
+        if (_enemyHealth > 0)
         {
-            //Debug.Log("je regarde vers la gauche");
-            _flip.flipX = true;
-            _collider2D.offset = new Vector2(-_initialColliderOffset.x, _collider2D.offset.y);
-            
-        }
-        else if (_lastPositionX.position.x < _moveTarget.position.x )
-        {
-            //Debug.Log("je regarde vers la droite");
-            _flip.flipX = false;
-            _collider2D.offset = new Vector2(_initialColliderOffset.x, _collider2D.offset.y);
+            if (_lastPositionX.position.x > _moveTarget.position.x)
+            {
+                transform.localScale = new Vector2(-_localScale.x, _localScale.y);
+                //Debug.Log("je regarde vers la gauche");
+                // _flip.flipX = true;
+                //_collider2D.offset = new Vector2(-_initialColliderOffset.x, _collider2D.offset.y);
 
-        }
-        if (_enemyHealth == 0)
-        {
-            transform.position = transform.position;
+            }
+            else if (_lastPositionX.position.x < _moveTarget.position.x)
+            {
+                //Debug.Log("je regarde vers la droite");
+                //_flip.flipX = false;
+                //_collider2D.offset = new Vector2(_initialColliderOffset.x, _collider2D.offset.y);
+                transform.localScale = new Vector2(_localScale.x, _localScale.y);
+            }
         }
 
     }
@@ -111,6 +113,7 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case EnemyStateMode.DEATH:
+                _animator.SetBool("isDead", true);
                 break;
 
             default:
@@ -137,10 +140,10 @@ public class EnemyStateMachine : MonoBehaviour
                 if (IsTargetNearLimit())
                 {
                     _attackTimer += Time.deltaTime;
-                    if(_attackTimer >= _waitingTimeBeforeAttack)
+                    if (_attackTimer >= _waitingTimeBeforeAttack)
                     {
                         TransitionToState(EnemyStateMode.ATTACK);
-                     
+
                     }
                 }
                 break;
@@ -149,8 +152,8 @@ public class EnemyStateMachine : MonoBehaviour
 
                 transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _moveSpeed * Time.deltaTime);
                 //transform.position = Vector2.Lerp(transform.position, _moveTarget.position, Time.deltaTime);
-                
-                if (IsTargetNearLimit()) 
+
+                if (IsTargetNearLimit())
                 {
                     TransitionToState(EnemyStateMode.IDLE);
 
@@ -192,6 +195,8 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
+                Invoke("DestroyObject", 3);
+
                 break;
             default:
                 break;
@@ -234,20 +239,33 @@ public class EnemyStateMachine : MonoBehaviour
 
 
 
-   private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("HitBoxPlayer"))
         {
-            Debug.Log("enemy hit");
-            GetDamage(50);
+            GetDamage(_dataInt.damagesToEnemies);
         }
     }
+
+
+
 
     public void GetDamage(int damage)
     {
         _enemyHealth -= damage;
     }
 
+    void IsDead()
+    {
+        if (_enemyHealth <= 0)
+        {
+            TransitionToState(EnemyStateMode.DEATH);
+        }
+    }
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
 }
 
 

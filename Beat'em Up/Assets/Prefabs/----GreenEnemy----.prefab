@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 323400168}
   - component: {fileID: 323400169}
-  - component: {fileID: 920107042}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: HitBox
@@ -59,68 +58,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17840004, y: 0.12410867}
   m_EdgeRadius: 0
---- !u!114 &920107042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323400167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c8b7421db82574e838247e47360d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
-  _currentHealth: 0
---- !u!1 &769992183
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 769992184}
-  - component: {fileID: 769992185}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &769992184
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769992183}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1388256659210309542}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &769992185
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 769992183}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.013838768, y: 0.15728208}
-  m_Size: {x: 0.2034359, y: 0.397191}
-  m_Direction: 0
 --- !u!1 &2024558216
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +151,6 @@ Transform:
   m_Children:
   - {fileID: 1388256661059564966}
   - {fileID: 2024558217}
-  - {fileID: 769992184}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,20 +176,22 @@ MonoBehaviour:
   _hitBox: {fileID: 323400167}
   _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
   _enemyHealth: 0
---- !u!136 &1388256660102961222
-CapsuleCollider:
+--- !u!70 &1388256660102961222
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388256659210309543}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.09
-  m_Height: 0.33
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.18, z: 0}
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.18}
+  m_Size: {x: 0.23, y: 0.36}
+  m_Direction: 0
 --- !u!1 &1388256661059564967
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 366674582}
   m_Layer: 0
   m_Name: Shadow
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   _currentHealth: 0
   _currentMana: 0
   _hitBoxFist: {fileID: 1239522148}
+  _hitBoxCollider: {fileID: 0}
 --- !u!70 &8271550552114972367
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -323,7 +324,7 @@ GameObject:
   - component: {fileID: 2002734565698838548}
   m_Layer: 0
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

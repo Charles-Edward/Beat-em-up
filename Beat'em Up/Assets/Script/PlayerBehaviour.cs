@@ -33,8 +33,11 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] IntVariable _dataInt;
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
+    [SerializeField] float invincibilityDuration = 1.0f;
+
     private Vector2 _localScale;
     [SerializeField] private GameObject _hitBoxFist;
+    [SerializeField] private Collider2D _hitBoxPlayer;
     #endregion
 
     #region Unity Lifecycle
@@ -45,7 +48,6 @@ public class PlayerBehaviour : MonoBehaviour
         _localScale = transform.localScale;
         _hitBoxFist.SetActive(false);
         _initialColliderOffset = _collider.offset;
-
         flip = GetComponentInChildren<SpriteRenderer>();
         _graphics = transform.Find("Graphic");
         // -----------------------------------------
@@ -63,15 +65,25 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         // Etat idle au start 
+        _buttonSprint = false;
         TransitionToState(PlayerStateMode.IDLE);
     }
 
     void Update()
     {
 
+        if (Input.GetButtonDown("Fire3"))
+        {
+            _buttonSprint = true;
+        }
+        if (Input.GetButtonUp("Fire3"))
+        {
+            _buttonSprint = false;
+        }
         GetInputAndFlipSprite();
         SwitchToDeath();
         OnStateUpdate();
+
     }
 
     private void FixedUpdate()
@@ -136,12 +148,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       // Debug.Log("P collided with " + collision.otherCollider);
-
-        if (collision.transform.CompareTag("HitBox"))
+        // Debug.Log("P collided with " + collision.otherCollider);
+        if (collision.gameObject.tag == "HitBox" && Time.time >= lastDamageTime + invincibilityDuration)
         {
-            Debug.Log("enemy hit");
-            TakeDamage(50);
+            TakeDamage(_dataInt.damagesToPlayer);
+            lastDamageTime = Time.time;
         }
     }
 
@@ -179,23 +190,23 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
+    // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
+    // jamais dans cette condition
+    // l'utilisation de Mathf.Max permet de récupérer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
+    // du Y pour entrer dans la conditions de l'animator qui est actuellement : if(MoveSpeed > .1)
     void OnStateUpdate()
     {
         _direction.x = Input.GetAxis("Horizontal");
         _direction.y = Input.GetAxis("Vertical");
-        var magnitude = _rb2D.velocity.magnitude;
-        // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
-        // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
-        // jamais dans cette condition
-        // l'utilisation de Mathf.Max permet de récupérer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
-        // du Y pour entrer dans la conditions de l'animator qui est actuellement : if(MoveSpeed > .1)
+        _magnitude = _rb2D.velocity.magnitude;
         float maxValue = Mathf.Max(Mathf.Abs(_direction.y), Mathf.Abs(_direction.x));
 
         switch (_currentState)
         {
             case PlayerStateMode.IDLE:
 
-                _animator.SetFloat("MoveSpeed", magnitude);
+                _animator.SetFloat("MoveSpeed", _magnitude);
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
@@ -204,7 +215,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.WALK:
-                _animator.SetFloat("MoveSpeed", magnitude);
+                _animator.SetFloat("MoveSpeed", _magnitude);
                 SwitchToSprint();
                 SwitchToJump();
                 SwitchToBasicPunch();
@@ -217,7 +228,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
-                else if (magnitude == 0)
+                else if (_magnitude <= 1e-3f)
                 {
 
                     TransitionToState(PlayerStateMode.IDLE);
@@ -234,13 +245,12 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     _jumpTimer += Time.deltaTime;
                     float y = _jumpCurve.Evaluate(_jumpTimer / _jumpDuration);
-                    Debug.Log(y * _jumpHeight);
                     _graphics.localPosition = new Vector3(_graphics.localPosition.x, y * _jumpHeight, _graphics.localPosition.z);
                 }
                 else
                 {
                     _jumpTimer = 0f;
-                    if (magnitude > 0) // si la vraie vitesse (magnitude) est supérieure à 0 on marche
+                    if (_magnitude > 0) // si la vraie vitesse (magnitude) est supérieure à 0 on marche
                     {
                         TransitionToState(PlayerStateMode.WALK);
                     }
@@ -305,16 +315,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void SwitchToSprint()
     {
-        if (Input.GetButtonDown("Fire3"))
+        if (_buttonSprint && _magnitude > 0)
         {
-            _buttonSprint = true;
             TransitionToState(PlayerStateMode.SPRINT);
         }
-        else if (Input.GetButtonUp("Fire3"))
-        {
-            _buttonSprint = false;
-            TransitionToState(PlayerStateMode.IDLE);
-        }
+
 
     }
 
@@ -353,5 +358,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Collider2D _collider;
     private Vector2 _initialColliderOffset;
     private bool _buttonSprint;
+    private bool hasTakenDamage;
+    private float lastDamageTime = 0f;
+    private float _magnitude;
     #endregion
 }
