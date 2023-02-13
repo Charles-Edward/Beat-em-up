@@ -60,7 +60,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     private void Awake()
     {
-        _gameController= Camera.main.GetComponent<GameController>();
+        _gameController = Camera.main.GetComponent<GameController>();
         _localScale = transform.localScale;
         _flip = GetComponentInChildren<SpriteRenderer>();
         _collider2D = gameObject.GetComponentInChildren<Collider2D>();
@@ -214,10 +214,11 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
-                if (gameObject.CompareTag("Boss"))
-                {
-                _gameController.Victory();
-                }
+
+                /* if (gameObject.CompareTag("Boss"))
+                 {
+                         _gameController.Victory();
+                 }*/
                 Invoke("DestroyObject", 3);
 
                 break;
