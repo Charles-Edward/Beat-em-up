@@ -215,10 +215,10 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
             case EnemyStateMode.DEATH:
 
-                /* if (gameObject.CompareTag("Boss"))
-                 {
-                         _gameController.Victory();
-                 }*/
+                if (gameObject.CompareTag("Boss"))
+                {
+                    _gameController.Victory();
+                }
                 Invoke("DestroyObject", 3);
 
                 break;
