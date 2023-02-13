@@ -39,6 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Vector2 _localScale;
     [SerializeField] private Collider2D _hitBoxFist;
     [SerializeField] private Collider2D _hitBoxPlayer;
+    [SerializeField] private GameObject _buttonRetry;
     #endregion
 
     #region Unity Lifecycle
@@ -62,6 +63,7 @@ public class PlayerBehaviour : MonoBehaviour
         _healthBar.SetMaxHealth(_dataInt.player_health);
         // _manaBar.SetMaxMana(_maxMana.m_mana);
         // ----------------------
+        _buttonRetry.SetActive(false);
     }
     void Start()
     {
@@ -275,7 +277,6 @@ public class PlayerBehaviour : MonoBehaviour
                     timeSinceLastDisable = 0;
                 }
 
-
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
@@ -284,6 +285,11 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.DEATH:
+                timeSinceLastDisable += Time.deltaTime;
+                if (timeSinceLastDisable >= .5)
+                {
+                _buttonRetry.SetActive(true);
+                }
                 break;
             default:
                 break;
