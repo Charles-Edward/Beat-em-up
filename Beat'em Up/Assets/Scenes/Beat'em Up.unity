@@ -1445,10 +1445,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 992992076578350483, guid: c457c7f05f0ab4902a87c786be4f7184, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1076829644420493894, guid: c457c7f05f0ab4902a87c786be4f7184, type: 3}
       propertyPath: m_Name
       value: ----RedEnemy----
