@@ -120,7 +120,7 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isDead", true);
                 break;
             case EnemyStateMode.HIT:
-                _animator.SetBool("isHit", true);
+                _animator.SetBool("isTakingDamage", true);
                 break;
             default:
                 break;
@@ -215,7 +215,7 @@ public class EnemyStateMachine : MonoBehaviour
 
                 break;
             case EnemyStateMode.HIT:
-                _animator.SetBool("isHit", false);
+                _animator.SetBool("isTakingDamage", false);
                 break;
             default:
                 break;
