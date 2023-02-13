@@ -11,7 +11,8 @@ enum EnemyStateMode
     IDLE,
     WALK,
     ATTACK,
-    DEATH
+    DEATH,
+    HIT
 
 }
 
@@ -53,6 +54,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Collider2D _collider2D;
     private Vector2 _initialColliderOffset;
     private Vector2 _localScale;
+    private float transitionTimer = 0;
 
 
     private void Awake()
@@ -73,7 +75,6 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Update()
     {
-        IsDead();
         OnStateUpdate();
         if (_enemyHealth > 0)
         {
@@ -118,7 +119,9 @@ public class EnemyStateMachine : MonoBehaviour
             case EnemyStateMode.DEATH:
                 _animator.SetBool("isDead", true);
                 break;
-
+            case EnemyStateMode.HIT:
+                _animator.SetBool("isHit", true);
+                break;
             default:
                 break;
         }
@@ -176,6 +179,16 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
             case EnemyStateMode.DEATH:
                 break;
+            case EnemyStateMode.HIT:
+
+                transitionTimer += Time.deltaTime;
+
+                if (transitionTimer >= 0.2)
+                {
+                    TransitionToState(EnemyStateMode.IDLE);
+                }
+
+                break;
             default:
                 break;
         }
@@ -200,6 +213,9 @@ public class EnemyStateMachine : MonoBehaviour
             case EnemyStateMode.DEATH:
                 Invoke("DestroyObject", 3);
 
+                break;
+            case EnemyStateMode.HIT:
+                _animator.SetBool("isHit", false);
                 break;
             default:
                 break;
@@ -247,6 +263,15 @@ public class EnemyStateMachine : MonoBehaviour
         if (collision.transform.CompareTag("HitBoxPlayer"))
         {
             GetDamage(_dataInt.damagesToEnemies);
+            if (_enemyHealth <= 0)
+            {
+                IsDead();
+            }
+            else
+            {
+                TransitionToState(EnemyStateMode.HIT);
+
+            }
         }
     }
 
@@ -265,6 +290,8 @@ public class EnemyStateMachine : MonoBehaviour
             TransitionToState(EnemyStateMode.DEATH);
         }
     }
+
+
     private void DestroyObject()
     {
         Destroy(gameObject);
