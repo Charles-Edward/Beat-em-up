@@ -34,9 +34,10 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] int _currentHealth;
     [SerializeField] int _currentMana;
     [SerializeField] float invincibilityDuration = 1.0f;
+    [SerializeField] float _waitingTimeBeforeAttack = 1f;
 
     private Vector2 _localScale;
-    [SerializeField] private GameObject _hitBoxFist;
+    [SerializeField] private Collider2D _hitBoxFist;
     [SerializeField] private Collider2D _hitBoxPlayer;
     #endregion
 
@@ -46,7 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
         // ---- Gestion flip collider & sprites ----
         _collider = gameObject.GetComponent<Collider2D>();
         _localScale = transform.localScale;
-        _hitBoxFist.SetActive(false);
+        _hitBoxFist.GetComponent<Collider2D>().enabled = false;
         _initialColliderOffset = _collider.offset;
         flip = GetComponentInChildren<SpriteRenderer>();
         _graphics = transform.Find("Graphic");
@@ -266,10 +267,19 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case PlayerStateMode.BASICPUNCH:
-                _hitBoxFist.SetActive(true);
+                timeSinceLastDisable += Time.deltaTime;
+
+                if (timeSinceLastDisable >= _waitingTimeBeforeAttack)
+                {
+                    _hitBoxFist.enabled = !_hitBoxFist.enabled;
+                    timeSinceLastDisable = 0;
+                }
+
+
                 if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
+                    _hitBoxFist.enabled = false;
                 }
                 break;
 
@@ -279,6 +289,8 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
         }
     }
+
+
 
     void OnStateExit()
     {
@@ -296,7 +308,7 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case PlayerStateMode.BASICPUNCH:
                 _animator.SetBool("isPunching", false);
-                _hitBoxFist.SetActive(false);
+                // _hitBoxFist.SetActive(false);
                 break;
             case PlayerStateMode.DEATH:
                 _animator.SetBool("isDead", false);
@@ -361,5 +373,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool hasTakenDamage;
     private float lastDamageTime = 0f;
     private float _magnitude;
+    private float _attackTimer;
+    private float timeSinceLastDisable = 0;
     #endregion
 }

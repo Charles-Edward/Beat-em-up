@@ -361,6 +361,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &695726501 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1239522150, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+  m_PrefabInstance: {fileID: 1346944238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &852505368
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +506,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1494213537}
     - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _hitBoxFist
+      value: 
+      objectReference: {fileID: 695726501}
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: _hitBoxPlayer
       value: 
       objectReference: {fileID: 1735883819}
@@ -511,6 +520,10 @@ PrefabInstance:
     - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: invincibilityDuration
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1735883816, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
+      propertyPath: _waitingTimeBeforeAttack
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1411430983254121484, guid: 058efd395a803c34e82ef865004e1bfc, type: 3}
       propertyPath: m_LocalPosition.x
