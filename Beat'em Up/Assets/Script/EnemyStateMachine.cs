@@ -55,6 +55,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Vector2 _initialColliderOffset;
     private Vector2 _localScale;
     private float transitionTimer = 0;
+    private GameController _gameController;
 
 
     private void Awake()
@@ -186,6 +187,7 @@ public class EnemyStateMachine : MonoBehaviour
                 if (transitionTimer >= 0.2)
                 {
                     TransitionToState(EnemyStateMode.IDLE);
+                    transitionTimer = 0;
                 }
 
                 break;
@@ -211,8 +213,10 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
+                if (!gameObject.CompareTag("Boss"))
+                {
                 Invoke("DestroyObject", 3);
-
+                }
                 break;
             case EnemyStateMode.HIT:
                 _animator.SetBool("isTakingDamage", false);

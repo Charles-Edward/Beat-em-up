@@ -21,4 +21,17 @@ public class GameController : MonoBehaviour
         print("Scène rechargée");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void Play()
+    {
+        print("Scène 1");
+        SceneManager.LoadScene("Level1");
+    }
+
+    public void Victory()
+    {
+        print("Victory");
+        SceneManager.LoadScene("Victory");
+
+    }
 }

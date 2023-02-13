@@ -9,6 +9,7 @@ TagManager:
   - Spawn
   - HitBoxPlayer
   - ColliderPlayer
+  - Boss
   layers:
   - Default
   - TransparentFX
