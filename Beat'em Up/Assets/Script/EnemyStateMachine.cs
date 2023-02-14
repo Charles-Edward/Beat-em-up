@@ -39,6 +39,7 @@ public class EnemyStateMachine : MonoBehaviour
     private IntVariable _dataInt;
     [SerializeField]
     private int _enemyHealth;
+    [SerializeField] ScoreValue _scoreValue;
 
 
 
@@ -56,6 +57,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Vector2 _localScale;
     private float transitionTimer = 0;
     private GameController _gameController;
+    private Collider2D _hpCollider;
 
 
     private void Awake()
@@ -67,6 +69,7 @@ public class EnemyStateMachine : MonoBehaviour
         _initialColliderOffset = _collider2D.offset;
         _hitBox.SetActive(false);
         _enemyHealth = _dataInt.enemie_health;
+        _hpCollider = gameObject.GetComponent<Collider2D>();
     }
     void Start()
     {
@@ -157,8 +160,22 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case EnemyStateMode.WALK:
-
-                transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _moveSpeed * Time.deltaTime);
+                if (gameObject.tag == "GreenEnemy")
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _dataInt.speedGreenEnemy * Time.deltaTime);
+                }
+                else if (gameObject.tag == "RedEnemy")
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _dataInt.speedRedEnemy * Time.deltaTime);
+                }
+                else if (gameObject.tag == "Boss")
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _dataInt.speedBoss * Time.deltaTime);
+                }
+                else if (gameObject.tag == "WhiteEnemy")
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, _moveTarget.position, _dataInt.speedWhiteEnemy * Time.deltaTime);
+                }
                 //transform.position = Vector2.Lerp(transform.position, _moveTarget.position, Time.deltaTime);
 
                 if (IsTargetNearLimit())
@@ -214,11 +231,11 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
-
-                if (gameObject.CompareTag("Boss"))
+                if (gameObject.CompareTag("WhiteEnemy"))
                 {
                     _gameController.Victory();
                 }
+                Debug.Log("je dois ");
                 Invoke("DestroyObject", 3);
 
                 break;
@@ -295,6 +312,23 @@ public class EnemyStateMachine : MonoBehaviour
     {
         if (_enemyHealth <= 0)
         {
+            _hpCollider.enabled = false;
+            if (gameObject.tag == "Boss")
+            {
+                _scoreValue.ScoreAdd(_dataInt.scoreBoss);
+                TransitionToState(EnemyStateMode.DEATH);
+            }
+            else if (gameObject.tag ==  "WhiteEnemy")
+            {
+                _scoreValue.ScoreAdd(200);
+                TransitionToState(EnemyStateMode.DEATH);
+            }
+            else
+            {
+                _scoreValue.ScoreAdd(_dataInt.scoreBasicEnemies);
+                TransitionToState(EnemyStateMode.DEATH);
+            }
+
             TransitionToState(EnemyStateMode.DEATH);
         }
     }

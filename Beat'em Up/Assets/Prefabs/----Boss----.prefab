@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4584112874484935587}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4584112875137009301}
   m_Layer: 0
   m_Name: ----Boss----
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,6 +200,7 @@ MonoBehaviour:
   _hitBox: {fileID: 4584112874484935585}
   _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
   _enemyHealth: 0
+  _scoreValue: {fileID: 0}
 --- !u!70 &4584112875137009301
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

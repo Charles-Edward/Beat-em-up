@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 1076829644420493944}
   m_Layer: 0
   m_Name: ----RedEnemy----
-  m_TagString: Untagged
+  m_TagString: RedEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   _hitBox: {fileID: 1076829644811712416}
   _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
   _enemyHealth: 0
+  _scoreValue: {fileID: 0}
 --- !u!70 &1076829644420493944
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +148,7 @@ GameObject:
   - component: {fileID: 1076829644811712417}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

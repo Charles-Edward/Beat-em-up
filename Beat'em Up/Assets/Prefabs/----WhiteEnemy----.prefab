@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2142200561732662528}
   m_Layer: 0
   m_Name: HitBox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   _hitBox: {fileID: 4387853590396834081}
   _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
   _enemyHealth: 0
+  _scoreValue: {fileID: 0}
 --- !u!70 &2543631516149048511
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

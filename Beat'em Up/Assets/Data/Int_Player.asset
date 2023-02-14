@@ -18,3 +18,13 @@ MonoBehaviour:
   boss_health: 150
   damagesToPlayer: 50
   damagesToEnemies: 40
+  scoreBasicEnemies: 20
+  scoreBoss: 100
+  speedGreenEnemy: 0.7
+  speedRedEnemy: 0.5
+  speedBoss: 0.3
+  speedWhiteEnemy: 1
+  damageGreenEnemy: 10
+  damageRedEnemy: 15
+  damageBoss: 30
+  damageWhiteEnmy: 45

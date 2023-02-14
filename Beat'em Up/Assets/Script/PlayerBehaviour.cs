@@ -153,7 +153,22 @@ public class PlayerBehaviour : MonoBehaviour
         // Debug.Log("P collided with " + collision.otherCollider);
         if (collision.gameObject.tag == "HitBox" && Time.time >= lastDamageTime + invincibilityDuration)
         {
-            TakeDamage(_dataInt.damagesToPlayer);
+            if (collision.transform.parent.transform.parent.tag == "GreenEnemy")
+            {
+                TakeDamage(_dataInt.damageGreenEnemy);
+            }
+            if (collision.transform.parent.transform.parent.tag == "RedEnemy")
+            {
+                TakeDamage(_dataInt.damageRedEnemy);
+            }
+            if (collision.transform.parent.transform.parent.tag == "Boss")
+            {
+                TakeDamage(_dataInt.damageBoss);
+            }
+            if (collision.transform.parent.transform.parent.tag == "WhiteEnemy")
+            {
+                TakeDamage(_dataInt.damageWhiteEnmy);
+            }
             lastDamageTime = Time.time;
         }
     }
