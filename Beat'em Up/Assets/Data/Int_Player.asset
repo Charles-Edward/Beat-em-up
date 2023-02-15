@@ -19,11 +19,11 @@ MonoBehaviour:
   damagesToPlayer: 50
   damagesToEnemies: 40
   scoreBasicEnemies: 20
-  scoreBoss: 100
-  speedGreenEnemy: 0.7
+  scoreBoss: 800
+  speedGreenEnemy: 1
   speedRedEnemy: 0.5
   speedBoss: 0.3
-  speedWhiteEnemy: 1
+  speedWhiteEnemy: 1.5
   damageGreenEnemy: 10
   damageRedEnemy: 15
   damageBoss: 30

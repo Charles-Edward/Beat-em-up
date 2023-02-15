@@ -231,10 +231,11 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetBool("isAttacking", false);
                 break;
             case EnemyStateMode.DEATH:
-                if (gameObject.CompareTag("WhiteEnemy"))
+               /* if (gameObject.CompareTag("WhiteEnemy"))
                 {
                     _gameController.Victory();
                 }
+               */
                 Debug.Log("je dois ");
                 Invoke("DestroyObject", 3);
 
@@ -316,16 +317,28 @@ public class EnemyStateMachine : MonoBehaviour
             if (gameObject.tag == "Boss")
             {
                 _scoreValue.ScoreAdd(_dataInt.scoreBoss);
+                if (_scoreValue._value >= 1000)
+                { 
+                    _gameController.Victory();
+                }
                 TransitionToState(EnemyStateMode.DEATH);
             }
             else if (gameObject.tag ==  "WhiteEnemy")
             {
-                _scoreValue.ScoreAdd(200);
+                _scoreValue.ScoreAdd(100);
+                if (_scoreValue._value >= 1000)
+                {
+                    _gameController.Victory();
+                }
                 TransitionToState(EnemyStateMode.DEATH);
             }
             else
             {
                 _scoreValue.ScoreAdd(_dataInt.scoreBasicEnemies);
+                if (_scoreValue._value >= 1000)
+                {
+                    _gameController.Victory();
+                }
                 TransitionToState(EnemyStateMode.DEATH);
             }
 

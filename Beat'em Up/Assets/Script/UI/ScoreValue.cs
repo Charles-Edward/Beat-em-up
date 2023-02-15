@@ -20,5 +20,9 @@ public class ScoreValue : MonoBehaviour
     {
             _value += score;
             _scoreValue.text = "" + _value;
+        if (_value > 1000)
+        {
+
+        }
     }
 }
