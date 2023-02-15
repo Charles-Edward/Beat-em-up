@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 2543631516149048511}
   m_Layer: 0
   m_Name: ----WhiteEnemy----
-  m_TagString: Untagged
+  m_TagString: WhiteEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 4932615755290776467}
   _moveTarget: {fileID: 0}
-  _limitNearTarget: 0.5
+  _limitNearTarget: 0.2
   _moveSpeed: 1
   _waitingTimeBeforeAttack: 1
   _attackDuration: 0.2

@@ -17,12 +17,13 @@ public class EnemiesSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _spawnPoint = new List<GameObject>();
-        GameObject[] array = GameObject.FindGameObjectsWithTag("Spawn");
+        
+        //_spawnPoint = new List<GameObject>();
+        /*GameObject[] array = GameObject.FindGameObjectsWithTag("Spawn");
         foreach (var item in array)
         {
             _spawnPoint.Add(item);
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -40,14 +41,16 @@ public class EnemiesSpawn : MonoBehaviour
             _spawnPoint.Remove(gameObject);
            
             foreach (var item in _spawnPoint)
+            //for (int i =0; i<4; i++)
             {
 
                    _enemyCount++;
                     Instantiate(_enemyPrefab, item.transform.position, Quaternion.identity);
+               // GameObject go = _spawnPoint[i];
+                //_spawnPoint.Remove(go);
 
             }
-           Destroy(this);
-            
+            Destroy(this);
         }
 
 

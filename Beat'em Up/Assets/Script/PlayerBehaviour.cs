@@ -39,6 +39,10 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private Collider2D _hitBoxFist;
     [SerializeField] private Collider2D _hitBoxPlayer;
     [SerializeField] private GameObject _buttonRetry;
+
+    
+
+
     #endregion
 
     #region Unity Lifecycle
@@ -171,7 +175,10 @@ public class PlayerBehaviour : MonoBehaviour
             }
             lastDamageTime = Time.time;
         }
+        
+      
     }
+            
 
 
     public void TakeDamage(int damage)
@@ -207,10 +214,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur négative en X et on passe cette valeur négative en valeur positive
-    // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur négative et on entrera
+    // l'utilisation de Mathf.abs permet d'avoir une valeur toujours positive, aller vers la gauche = valeur nï¿½gative en X et on passe cette valeur nï¿½gative en valeur positive
+    // pour voir entrer dans les conditions de l'animator (ex : Transition si MoveSpeed > .1, si on va vers la gauche on aura une valeur nï¿½gative et on entrera
     // jamais dans cette condition
-    // l'utilisation de Mathf.Max permet de récupérer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
+    // l'utilisation de Mathf.Max permet de rï¿½cupï¿½rer la valeur la plus grande entre X et Y, donc si on va vers le haut on aura 0,1,0 on n'utilise donc pas X alors on va se servir
     // du Y pour entrer dans la conditions de l'animator qui est actuellement : if(MoveSpeed > .1)
     void OnStateUpdate()
     {
@@ -241,7 +248,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             case PlayerStateMode.SPRINT:
 
-                if (Input.GetButtonUp("Fire3"))  // si on arrête d'appuyer sur sprint on repasse en walk
+                if (Input.GetButtonUp("Fire3"))  // si on arrï¿½te d'appuyer sur sprint on repasse en walk
                 {
                     TransitionToState(PlayerStateMode.WALK);
                 }
@@ -251,7 +258,7 @@ public class PlayerBehaviour : MonoBehaviour
                     TransitionToState(PlayerStateMode.IDLE);
                 }
 
-                else if (Input.GetButtonDown("Jump")) // permet de sauter dans l'état sprint
+                else if (Input.GetButtonDown("Jump")) // permet de sauter dans l'ï¿½tat sprint
                 {
                     TransitionToState(PlayerStateMode.JUMP);
                 }
@@ -267,7 +274,7 @@ public class PlayerBehaviour : MonoBehaviour
                 else
                 {
                     _jumpTimer = 0f;
-                    if (_magnitude > 0) // si la vraie vitesse (magnitude) est supérieure à 0 on marche
+                    if (_magnitude > 0) // si la vraie vitesse (magnitude) est supï¿½rieure ï¿½ 0 on marche
                     {
                         TransitionToState(PlayerStateMode.WALK);
                     }
@@ -291,7 +298,7 @@ public class PlayerBehaviour : MonoBehaviour
                     timeSinceLastDisable = 0;
                 }
 
-                if (Input.GetButtonUp("Fire1")) // si on arrête d'attaquer on passe en idle
+                if (Input.GetButtonUp("Fire1")) // si on arrï¿½te d'attaquer on passe en idle
                 {
                     TransitionToState(PlayerStateMode.IDLE);
                     _hitBoxFist.enabled = false;

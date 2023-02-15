@@ -14,6 +14,7 @@ TagManager:
   - GreenEnemy
   - RedEnemy
   - WhiteEnemy
+  - Canette
   layers:
   - Default
   - TransparentFX

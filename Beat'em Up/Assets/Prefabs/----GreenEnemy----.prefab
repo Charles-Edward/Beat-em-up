@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 1388256660102961222}
   m_Layer: 0
   m_Name: ----GreenEnemy----
-  m_TagString: Enemy
+  m_TagString: GreenEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,6 +177,7 @@ MonoBehaviour:
   _hitBox: {fileID: 323400167}
   _dataInt: {fileID: 11400000, guid: 2d7161f7498739e429cf23deb874b85d, type: 2}
   _enemyHealth: 0
+  _scoreValue: {fileID: 0}
 --- !u!70 &1388256660102961222
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
